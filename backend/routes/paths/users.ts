@@ -1,6 +1,8 @@
 import {Router} from 'express'
-//import users from '../../api/users'
+//import createNewUser from '../../api/users'
 
 const router = Router();
+
+router.post('/registration', createNewUser(), add)
 
 export default router;
