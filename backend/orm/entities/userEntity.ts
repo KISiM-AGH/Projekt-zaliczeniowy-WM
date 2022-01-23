@@ -1,4 +1,14 @@
-import {Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm'
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    Index,
+    JoinTable,
+    ManyToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from 'typeorm'
+import {gameEntity} from "./gameEntity";
 
 
 
@@ -12,12 +22,19 @@ export class UserEntity {
     email: string;
     @Column()
     password: string
-
+    @Column()
+    isAdmin: boolean
+    @Column()
+    walletState: number
     @Column()
     @CreateDateColumn()
     created_at: Date
-
     @Column()
     @UpdateDateColumn()
     updated_at: Date;
+
+    @ManyToMany(() => gameEntity)
+    @JoinTable()
+    library: gameEntity[]
+
 }

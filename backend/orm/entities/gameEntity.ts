@@ -1,5 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne} from 'typeorm'
-import {AuthorEntity} from './authorEntity'
+
 
 @Entity('games')
 export class gameEntity{
@@ -8,11 +8,10 @@ export class gameEntity{
 
     @Column()
     title: string;
-
-    @ManyToOne(type => AuthorEntity, author => author.games)
-    author: AuthorEntity;
     @Column()
-    authorId: number;
+    author: string;
+    @Column()
+    price: number
 
     @Column()
     @CreateDateColumn()

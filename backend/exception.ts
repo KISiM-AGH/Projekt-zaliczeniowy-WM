@@ -1,3 +1,3 @@
 export class Exception extends Error{
-   constructor(){ super("cos sie zjebalo")}
+   constructor(a?:string){ super(a||"nie dziala")}
 }
