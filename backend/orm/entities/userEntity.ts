@@ -33,7 +33,7 @@ export class UserEntity {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @ManyToMany(() => gameEntity)
+    @ManyToMany(() => gameEntity, {eager:true})
     @JoinTable()
     library: gameEntity[]
 

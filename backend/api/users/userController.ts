@@ -24,13 +24,20 @@ export const addGame = async(req: Request, res: Response, next: NextFunction)=> 
     const idGame = parseInt(req.params.id)
     const userRepository = getCustomRepository(UserRepository)
     const game = await getGameById(idGame)
-    console.log({user})
-    if (game && user.walletState>=game.price)
-    {
-        user.library=[...user.library, game]
-        user.walletState-=game.price
+    if(user.library.find(_game => _game.id === game?.id)){
+        return res.status(403).send("Bad request");
     }
-    return await userRepository.update({id:user.id},user)
+    if (game && user.walletState>=game.price) {
+        user.walletState -= game.price;
+        await userRepository.save(user);
+        await userRepository
+            .createQueryBuilder()
+            .relation(UserEntity, "library")
+            .of(user)
+            .add(game);
+        return res.status(201).send("Game added");
+    }
+    return res.status(404).send("Not Found");
 }
 export const getUserByEmail = async (email: string): Promise<UserEntity | undefined> => {
     const userRepository = getCustomRepository(UserRepository);

@@ -29,7 +29,6 @@ export const token = (required = true) => async (req: Request, res: Response, ne
         res.status(403).send("Unauthorized");
     }
     (req as RequestWithUser).user = userData!;
-    console.log('next')
     next();
 
 };
