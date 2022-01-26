@@ -21,7 +21,7 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const game = await getGameById(id);
         if (!game) {
-            return next(new Exception("There is no such game"));
+            return res.status(404).send("Not Found");
         }
         res.json(game);
     } catch (err) {
@@ -37,46 +37,22 @@ export const add = async (req: Request, res: Response, next: NextFunction) => {
         const game = await createGame(data);
         return res.json(game);
     } catch (err) {
-        return next(new Exception("Bad request"));
+        return res.status(400).send("Bad request");
     }
 }
-
-// export const edit = async (req: Request, res: Response, next: NextFunction) => {
-//     const id = parseInt(req.params.id);
-//     const data = req.body as EditBookDto;
-//
-//     try {
-//         let book = await getBookById(id);
-//         if (!book) {
-//             return next(new Exception("No book "));
-//         }
-//
-//         const author = await getAuthorById(data.authorId);
-//         if (!author) {
-//             return next(new Exception("No author"));
-//         }
-//
-//         book = await editBook(book, data);
-//         return res.json(book);
-//     } catch (err) {
-//         return next(new Exception("Bad request"));
-//     }
-//
-// };
-//
 export const destroy = async (req: Request, res: Response, next: NextFunction) => {
     const id = parseInt(req.params.id);
 
     try {
         const game = await getGameById(id);
         if (!game) {
-            return next(new Exception("Game not found"));
+            return res.status(404).send("Not Found");
         }
 
         await removeGame(game);
         res.status(204).end();
     } catch (err) {
-        return next(new Exception("bad request"));
+        return res.status(400).send("Bad request");
     }
 
 };

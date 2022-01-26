@@ -25,7 +25,7 @@ export const addGame = async(req: Request, res: Response, next: NextFunction)=> 
     const userRepository = getCustomRepository(UserRepository)
     const game = await getGameById(idGame)
     if(user.library.find(_game => _game.id === game?.id)){
-        return res.status(403).send("Bad request");
+        return res.status(400).send("Bad request");
     }
     if (game && user.walletState>=game.price) {
         user.walletState -= game.price;
@@ -37,6 +37,7 @@ export const addGame = async(req: Request, res: Response, next: NextFunction)=> 
             .add(game);
         return res.status(201).send("Game added");
     }
+    else return res.status(403).send("Not enough funds")
     return res.status(404).send("Not Found");
 }
 export const getUserByEmail = async (email: string): Promise<UserEntity | undefined> => {

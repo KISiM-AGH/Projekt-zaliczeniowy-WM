@@ -11,7 +11,7 @@ import {UserDto} from "./users/user.dto";
 export const basicAuth = async (req: Request, res: Response, next: NextFunction) => {
     const {email, password} = req.headers
     if(!email||!password){
-        return next(new Exception("Zly header w zapytaniu http"));
+        return res.status(401).send("DENIED");
     }
     //console.log({email,password})
     try {
@@ -19,7 +19,7 @@ export const basicAuth = async (req: Request, res: Response, next: NextFunction)
 
         // Znajdz uzytkownika
         if (!user) {
-            return next(new Exception("No user"));
+            return res.status(404).send("Not Found");
         }
 
         // Sprawdz hasla
